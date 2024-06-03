@@ -22,9 +22,15 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
             ],
             "styles": [
+              "src/theme.less",
               "src/styles.css"
             ],
             "scripts": []
@@ -90,6 +96,42 @@
           }
         }
       }
+    },
+    "uic-crud": {
+      "projectType": "library",
+      "root": "projects/uic-crud",
+      "sourceRoot": "projects/uic-crud/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/uic-crud/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/uic-crud/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/uic-crud/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/uic-crud/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
+  },
+  "cli": {
+    "analytics": "86a2dc18-4959-4da7-9ec7-597f81c4968d"
   }
 }

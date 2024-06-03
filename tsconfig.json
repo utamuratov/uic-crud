@@ -18,6 +18,11 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
+    "paths": {
+      "uic-crud": [
+        "./dist/uic-crud"
+      ]
+    },
     "lib": [
       "ES2022",
       "dom"
