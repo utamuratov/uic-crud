@@ -24,8 +24,7 @@ import { catchError, of, switchMap, tap } from 'rxjs';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { EnumToArrayPipe } from '../grid/pipes/enum-to-array.pipe';
-import { TypeLanguageKeys } from '../../utils/language-config';
-import { DITokens } from '../../utils/di.tokens';
+import { DITokens, ILanguageConfig } from '../../utils/di.tokens';
 
 enum TranslateTechEnum {
   Google2 = 0,
@@ -102,11 +101,14 @@ export class TypeTranslateComponent extends FieldType<FieldGroupTypeConfig> {
   private $notification = inject(NzNotificationService);
 
   readonly TranslateTechEnum = TranslateTechEnum;
-  readonly FROM_LANGUAGE: TypeLanguageKeys = 'uz';
+  readonly FROM_LANGUAGE = this.languageConfig.translationFrom;
   translationTechnology = TranslateTechEnum.Yandex;
   loading = false;
 
-  constructor(@Inject(DITokens.API_BASE_URL) private API_BASE_URL: string) {
+  constructor(
+    @Inject(DITokens.API_BASE_URL) private API_BASE_URL: string,
+    @Inject(DITokens.LANGUAGE_CONFIG) private languageConfig: ILanguageConfig
+  ) {
     super();
   }
 
@@ -127,7 +129,10 @@ export class TypeTranslateComponent extends FieldType<FieldGroupTypeConfig> {
       });
   }
 
-  private googleTranslate$(text: string, to: TypeLanguageKeys) {
+  private googleTranslate$(
+    text: string,
+    to: keyof typeof this.languageConfig.languages
+  ) {
     return this.$http
       .post(this.API_BASE_URL + '/api/Translation/TextTranslator', {
         from: 'uz',
@@ -172,7 +177,9 @@ export class TypeTranslateComponent extends FieldType<FieldGroupTypeConfig> {
           const result = w.result;
           if (result) {
             this.formControl.controls[
-              (lang_to === 'eng_Latn' ? 'en' : 'ru') as TypeLanguageKeys
+              (lang_to === 'eng_Latn'
+                ? 'en'
+                : 'ru') as keyof typeof this.languageConfig.languages
             ].setValue(result.trim());
           }
         })

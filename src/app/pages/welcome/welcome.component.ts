@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import {
   GridComponent,
   GridColumn,
   gridColumnFactory,
   CRUDService,
+  DITokens,
+  ILanguageConfig,
 } from 'uic-crud';
 import { CountryApiService } from './services/country-api.service';
 
@@ -24,6 +26,10 @@ import { CountryApiService } from './services/country-api.service';
 export class WelcomeComponent {
   readonly header = { title: 'countries', showAddButton: true };
 
+  constructor(
+    @Inject(DITokens.LANGUAGE_CONFIG) private languageConfig: ILanguageConfig
+  ) {}
+
   readonly columns: GridColumn[] = [
     gridColumnFactory({
       field: 'id',
@@ -31,7 +37,7 @@ export class WelcomeComponent {
     }),
     gridColumnFactory({
       field: 'name',
-      i18n: true,
+      languages: this.languageConfig.languages,
     }),
     gridColumnFactory({
       field: 'code',

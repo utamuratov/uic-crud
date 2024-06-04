@@ -1,4 +1,4 @@
-import { LanguageConfig } from '../../../utils/language-config';
+import { ILanguageConfig } from '../../../utils/di.tokens';
 
 type TypeTemplate = 'translate';
 
@@ -8,7 +8,7 @@ export interface IGridColumn {
   rowspan?: number | null;
   headerName?: string;
   sortable?: boolean | null;
-  i18n?: boolean;
+  languages?: ILanguageConfig['languages'];
   template?: TypeTemplate;
   children?: GridColumn[];
 }
@@ -20,15 +20,15 @@ export class GridColumn implements IGridColumn {
     public rowspan: number | null = null,
     public sortable: boolean | null = false,
     public headerName?: string,
-    public i18n?: boolean,
+    languages?: ILanguageConfig['languages'],
     public template?: TypeTemplate,
     public children?: GridColumn[]
   ) {
-    if (i18n) {
-      this.children = LanguageConfig.LanguageList.map((x) =>
+    if (languages) {
+      this.children = Object.keys(languages).map((x) =>
         gridColumnFactory({
           field: `${field}.${x}`,
-          headerName: LanguageConfig.LANGUAGES[x],
+          headerName: languages[x],
         })
       );
     }
@@ -41,7 +41,7 @@ export function gridColumnFactory({
   rowspan,
   headerName,
   sortable,
-  i18n,
+  languages,
   template,
   children,
 }: IGridColumn): GridColumn {
@@ -51,7 +51,7 @@ export function gridColumnFactory({
     rowspan,
     sortable,
     headerName,
-    i18n,
+    languages,
     template,
     children
   );

@@ -5,26 +5,24 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import { routes } from './app.routes';
-import { provideNzIcons } from './icons-provider';
-import { ru_RU, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
+import { provideHttpClient } from '@angular/common/http';
 import ru from '@angular/common/locales/ru';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideHttpClient } from '@angular/common/http';
-import { FORMLY_CONFIG, FormlyModule } from '@ngx-formly/core';
-import { FormlyPresetModule } from '@ngx-formly/core/preset';
-import {
-  DITokens,
-  LanguageConfig,
-  NgxFormlyConfig,
-  NgxFormlyProviders,
-  TranslocoHttpLoader,
-  TypeTranslateComponent,
-  registerTranslateExtension,
-} from 'uic-crud';
-import { TranslocoService, provideTransloco } from '@jsverse/transloco';
+import { provideTransloco } from '@jsverse/transloco';
+import { provideNzI18n, ru_RU } from 'ng-zorro-antd/i18n';
+import { DITokens, TranslocoHttpLoader, provideUICCrud } from 'uic-crud';
+import { routes } from './app.routes';
+import { provideNzIcons } from './icons-provider';
+
+const LANGUAGES = {
+  uz: 'O‘zbekcha',
+  en: 'English',
+  ru: 'Русский',
+};
+const DEFAULT_LANGUAGE: keyof typeof LANGUAGES = 'uz';
+const GOOGLE_TRANSLATION_FROM: keyof typeof LANGUAGES = 'uz';
 
 registerLocaleData(ru);
 
@@ -39,11 +37,13 @@ export const appConfig: ApplicationConfig = {
 
     provideTransloco({
       config: {
-        availableLangs: LanguageConfig.LanguageList.map((l) => ({
-          label: LanguageConfig.LANGUAGES[l],
-          id: l,
+        availableLangs: (
+          Object.keys(LANGUAGES) as Array<keyof typeof LANGUAGES>
+        ).map((key) => ({
+          label: LANGUAGES[key],
+          id: key,
         })),
-        defaultLang: LanguageConfig.DEFAULT_LANGUAGE,
+        defaultLang: DEFAULT_LANGUAGE,
         // Remove this option if your application doesn't support changing language in runtime.
         reRenderOnLangChange: true,
         prodMode: !isDevMode(),
@@ -51,16 +51,12 @@ export const appConfig: ApplicationConfig = {
       loader: TranslocoHttpLoader,
     }),
 
-    importProvidersFrom(
-      FormlyPresetModule,
-      FormlyModule.forRoot({
-        types: [...(NgxFormlyConfig.types || [])],
-        presets: [...(NgxFormlyConfig.presets || [])],
-      })
-    ),
+    provideUICCrud({
+      languages: LANGUAGES,
+      defaultLanguage: DEFAULT_LANGUAGE,
+      translationFrom: GOOGLE_TRANSLATION_FROM,
+    }),
 
     { provide: DITokens.API_BASE_URL, useValue: 'https://my.devel.uz' },
-
-    ...NgxFormlyProviders,
   ],
 };

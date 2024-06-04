@@ -1,6 +1,6 @@
-import { Pipe, inject, type PipeTransform } from '@angular/core';
+import { Inject, Pipe, inject, type PipeTransform } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
-import { TypeLanguage, TypeLanguageKeys } from '../utils/language-config';
+import { DITokens, ILanguageConfig } from '../utils/di.tokens';
 
 @Pipe({
   name: 'translate',
@@ -10,7 +10,11 @@ import { TypeLanguage, TypeLanguageKeys } from '../utils/language-config';
 export class TranslatePipe implements PipeTransform {
   private $transloco = inject(TranslocoService);
 
-  transform(value: TypeLanguage): string {
-    return value[this.$transloco.getActiveLang() as TypeLanguageKeys];
+  constructor(
+    @Inject(DITokens.LANGUAGE_CONFIG) private languageConfig: ILanguageConfig
+  ) {}
+
+  transform(value: typeof this.languageConfig.languages): string {
+    return value[this.$transloco.getActiveLang()];
   }
 }
