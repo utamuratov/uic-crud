@@ -1,9 +1,30 @@
 {
   "name": "uic-crud",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "author": {
+    "name": "Odilbek Utamuratov",
+    "email": "odil.utamuratov@gmail.com",
+    "url": "https://utamuratov.uz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/utamuratov/uic-crud.git"
+  },
+  "bugs": {
+    "url": "https://github.com/utamuratov/uic-crud/issues",
+    "email": "odil.utamuratov@gmail.com"
+  },
+  "homepage": "https://github.com/utamuratov/uic-crud#readme",
+  "keywords": [
+    "angular",
+    "angular 17+",
+    "uzinfocom",
+    "crud"
+  ],
+  "license": "MIT",
   "peerDependencies": {
-    "@angular/common": "^17.3.0",
-    "@angular/core": "^17.3.0"
+    "@angular/common": ">=17.3.0",
+    "@angular/core": ">=17.3.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
