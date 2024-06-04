@@ -1,0 +1,87 @@
+@if (header) {
+<div class="flex justify-between items-center mb-4">
+  <h2 class="mb-0">{{ header.title | transloco }}</h2>
+  @if (header.showAddButton) {
+  <button nz-button nzType="primary" (click)="add()">
+    {{ 'add' | transloco }}
+  </button>
+  }
+</div>
+}
+
+<nz-table
+  #basicTable
+  [nzData]="data.items"
+  [nzTotal]="data.total"
+  [nzPageSize]="queryParams.pageSize"
+  [nzPageIndex]="queryParams.pageIndex"
+  [nzLoading]="loading"
+  [nzFrontPagination]="false"
+  [nzBordered]="true"
+  [nzScroll]="{ x: '1100px', y: 'calc(100vh - 450px)' }"
+  [nzWidthConfig]="nzWidthConfig"
+  (nzQueryParams)="onQueryParamsChange($event)"
+>
+  <thead>
+    @for(row of thead; track i; let i = $index) {
+    <tr>
+      @for(column of row; track $index) {
+
+      <th
+        [nzColumnKey]="column.field"
+        [rowspan]="column.rowspan || null"
+        [colspan]="column.colspan || null"
+        [nzShowSort]="column.sortable"
+        [nzSortFn]="column.sortable"
+      >
+        {{ (column.headerName ? column.headerName : column.field) | transloco }}
+      </th>
+      }
+
+      <!-- FOR ACTIONS -->
+      <th nzRight *ngIf="i === 0 && showActions" [rowspan]="thead.length"></th>
+    </tr>
+    }
+  </thead>
+  <tbody>
+    @for (item of basicTable.data; track item.id) {
+
+    <tr>
+      @for (column of columnsWithValue; track $index) { @if(column.template) {
+      <td>{{ column.field | getDeepValue : item | translate }}</td>
+      } @else {
+      <td>{{ column.field | getDeepValue : item }}</td>
+      } }
+
+      <td nzRight *ngIf="showActions">
+        <nz-button-group>
+          <button nz-button class="w-12" (click)="edit(item)">
+            <span nz-icon nzType="edit" nzTheme="twotone"></span>
+          </button>
+
+          <button
+            nz-button
+            class="w-12"
+            nz-popconfirm
+            nzPopconfirmTitle="Are you sure delete this item?"
+            (nzOnConfirm)="confirmDelete(item)"
+            nzPopconfirmPlacement="topLeft"
+            nz-button
+            [nzIcon]="iconTpl"
+          >
+            <span nz-icon nzType="delete" nzTheme="twotone"></span>
+          </button>
+
+          <ng-template #iconTpl>
+            <span
+              nz-icon
+              nzType="question-circle-o"
+              style="color: red; margin-right: 8px"
+            ></span>
+          </ng-template>
+        </nz-button-group>
+      </td>
+    </tr>
+    }
+  </tbody>
+</nz-table>

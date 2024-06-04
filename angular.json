@@ -61,6 +61,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "port": 4217
+          },
           "configurations": {
             "production": {
               "buildTarget": "uic-crud-app:build:production"
