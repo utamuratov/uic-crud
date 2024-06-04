@@ -1,12 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, inject } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import {
   GridComponent,
   GridColumn,
-  gridColumnFactory,
   CRUDService,
-  DITokens,
-  ILanguageConfig,
+  GridColumnService,
 } from 'uic-crud';
 import { CountryApiService } from './services/country-api.service';
 
@@ -25,25 +23,22 @@ import { CountryApiService } from './services/country-api.service';
 })
 export class WelcomeComponent {
   readonly header = { title: 'countries', showAddButton: true };
-
-  constructor(
-    @Inject(DITokens.LANGUAGE_CONFIG) private languageConfig: ILanguageConfig
-  ) {}
+  private $gridColumn = inject(GridColumnService);
 
   readonly columns: GridColumn[] = [
-    gridColumnFactory({
+    this.$gridColumn.columnFactory({
       field: 'id',
       sortable: true,
     }),
-    gridColumnFactory({
+    this.$gridColumn.columnFactory({
       field: 'name',
-      languages: this.languageConfig.languages,
+      languages: true,
     }),
-    gridColumnFactory({
+    this.$gridColumn.columnFactory({
       field: 'code',
       sortable: true,
     }),
-    gridColumnFactory({
+    this.$gridColumn.columnFactory({
       field: 'numeral',
       headerName: 'order',
       sortable: true,
