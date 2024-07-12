@@ -19,34 +19,38 @@ export class CountryApiService implements CRUDService {
 
   getById(countryId?: number | undefined) {
     return this.http.get(
-      this.baseUrl + '/api/reference/Country/GetById?countryId=' + countryId
+      this.baseUrl +
+        '/api/admin/reference/Country/GetById?countryId=' +
+        countryId
     );
   }
 
   getAll(zorroFilterRequest: ZorroFilterRequest) {
     return this.http.post(
-      this.baseUrl + '/api/reference/Country/GetAll',
+      this.baseUrl + '/api/admin/reference/Country/GetAll',
       zorroFilterRequest
     );
   }
 
   create(countryDTO: any) {
     return this.http.post(
-      this.baseUrl + '/api/reference/Country/Create',
+      this.baseUrl + '/api/admin/reference/Country/Create',
       countryDTO
     );
   }
 
   update(countryDTO: any) {
     return this.http.put(
-      this.baseUrl + '/api/reference/Country/Update',
+      this.baseUrl + '/api/admin/reference/Country/Update',
       countryDTO
     );
   }
 
   delete(countryId?: number | undefined) {
     return this.http.delete(
-      this.baseUrl + '/api/reference/Country/Delete?countryId=' + countryId
+      this.baseUrl +
+        '/api/admin/reference/Country/Delete?countryId=' +
+        countryId
     );
   }
 }

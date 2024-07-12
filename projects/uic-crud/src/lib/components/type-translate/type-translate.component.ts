@@ -134,7 +134,7 @@ export class TypeTranslateComponent extends FieldType<FieldGroupTypeConfig> {
     to: keyof typeof this.languageConfig.languages
   ) {
     return this.$http
-      .post(this.API_BASE_URL + '/api/Translation/TextTranslator', {
+      .post(this.API_BASE_URL + '/api/admin/Translation/TextTranslator', {
         from: 'uz',
         to,
         text,
