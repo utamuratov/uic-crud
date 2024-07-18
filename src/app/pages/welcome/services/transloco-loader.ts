@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, inject, Injectable } from '@angular/core';
 import { TranslocoLoader } from '@jsverse/transloco';
-import { DITokens } from './di.tokens';
+import { DITokens } from 'uic-crud';
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {
@@ -11,7 +11,7 @@ export class TranslocoHttpLoader implements TranslocoLoader {
 
   getTranslation(lang: string) {
     return this.http.get(
-      `${this.baseUrl}/api/reference/InterfaceTranslate/GetAllDictionary/${lang}`
+      `${this.baseUrl}/api/core/reference/InterfaceTranslate/GetAllDictionary/${lang}`
     );
   }
 }

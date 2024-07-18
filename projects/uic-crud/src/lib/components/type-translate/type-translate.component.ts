@@ -107,6 +107,8 @@ export class TypeTranslateComponent extends FieldType<FieldGroupTypeConfig> {
 
   constructor(
     @Inject(DITokens.API_BASE_URL) private API_BASE_URL: string,
+    @Inject(DITokens.API_PATH_OPEN_GOOGLE_TRANSTATE)
+    private API_PATH_OPEN_GOOGLE_TRANSTATE: string,
     @Inject(DITokens.LANGUAGE_CONFIG) private languageConfig: ILanguageConfig
   ) {
     super();
@@ -134,7 +136,7 @@ export class TypeTranslateComponent extends FieldType<FieldGroupTypeConfig> {
     to: keyof typeof this.languageConfig.languages
   ) {
     return this.$http
-      .post(this.API_BASE_URL + '/api/admin/Translation/TextTranslator', {
+      .post(this.API_BASE_URL + this.API_PATH_OPEN_GOOGLE_TRANSTATE, {
         from: 'uz',
         to,
         text,

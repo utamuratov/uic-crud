@@ -12,9 +12,10 @@ import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideTransloco } from '@jsverse/transloco';
 import { provideNzI18n, ru_RU } from 'ng-zorro-antd/i18n';
-import { DITokens, TranslocoHttpLoader, provideUICCrud } from 'uic-crud';
+import { DITokens, provideUICCrud } from 'uic-crud';
 import { routes } from './app.routes';
 import { provideNzIcons } from './icons-provider';
+import { TranslocoHttpLoader } from './pages/welcome/services/transloco-loader';
 
 const LANGUAGES = {
   uz: 'O‘zbekcha',
@@ -58,5 +59,9 @@ export const appConfig: ApplicationConfig = {
     }),
 
     { provide: DITokens.API_BASE_URL, useValue: 'https://my.devel.uz' },
+    {
+      provide: DITokens.API_PATH_OPEN_GOOGLE_TRANSTATE,
+      useValue: '/api/admin/Translation/TextTranslator',
+    },
   ],
 };

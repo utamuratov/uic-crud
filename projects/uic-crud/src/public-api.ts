@@ -17,5 +17,4 @@ export * from './lib/components/grid/services/column.service';
 // UTILS
 export * from './lib/utils/di.tokens';
 export * from './lib/utils/translate.extension';
-export * from './lib/utils/transloco-loader';
 export * from './lib/utils/uic-crud.provider';
